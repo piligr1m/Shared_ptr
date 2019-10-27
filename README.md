@@ -1,3 +1,4 @@
+[![Build Status](https://travis-ci.com/piligr1m/Shared_ptr.svg?token=6x9RzivecP4pWPUVsqRH&branch=master)](https://travis-ci.com/piligr1m/Shared_ptr)
 # Лабораторная работа №3
 
 ### Задание
