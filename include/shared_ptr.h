@@ -63,6 +63,24 @@ public:
             value = nullptr;
             block = nullptr;
         }
+     auto operator = (Shared_Ptr<T>& r) -> Shared_Ptr<T>& //Заменяет управляемый объект объектом управляемым r.
+    {
+        if (value != nullptr)
+        {
+            block->decrease();
+            if (block != nullptr)
+            {
+                delete value;
+                value = nullptr;
+                delete block;
+                block = nullptr;
+            }
+        }
+        value = r.value;
+        block = &r.block;
+        block->increase();
+        return *this;
+    }
 
        // проверяет, указывает ли указатель на объект
        operator bool() const
