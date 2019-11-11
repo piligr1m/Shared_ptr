@@ -11,7 +11,6 @@ class Block
 public:
     atomic_uint count;
 
-public:
     Block()
     {
         count = 0;
