@@ -49,6 +49,15 @@ public:
         block = r.block;
         block->increase();
     }
+        Shared_Ptr(Shared_Ptr<T>&& r) //  Move-строит shared_ptr от r.
+    {
+        value = r.value;
+        block = r.block;
+        *this = r.value;
+        r.block = nullptr;
+        r.value  = nullptr;
+        return *this;
+    }
      ~Shared_Ptr() //деструктор
         {
             if(block != nullptr)
