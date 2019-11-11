@@ -49,7 +49,7 @@ public:
         block = r.block;
         block->increase();
     }
-     ~Shared_Ptr()
+     ~Shared_Ptr() //деструктор
         {
             if(block != nullptr)
             {
