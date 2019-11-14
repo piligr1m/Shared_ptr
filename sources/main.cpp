@@ -1,3 +1,11 @@
+//
+//  main.cpp
+//  LW3
+//
+//  Created by Stanislav Martynov on 26/10/2019.
+//  Copyright © 2019 Stanislav Martynov. All rights reserved.
+//
+
 #include <iostream>
 #include <atomic>
 #include "shared_ptr.h"
