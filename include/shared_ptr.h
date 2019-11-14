@@ -1,3 +1,11 @@
+//
+//  shared_ptr.h
+//  LW3
+//
+//  Created by Stanislav Martynov on 26/10/2019.
+//  Copyright © 2019 Stanislav Martynov. All rights reserved.
+//
+
 #ifndef shared_ptr_h
 #define shared_ptr_h
 
@@ -11,6 +19,7 @@ class Block
 public:
     atomic_uint count;
 
+public:
     Block()
     {
         count = 0;
@@ -32,29 +41,31 @@ private:
     T* value; //объект
     Block* block; //блок управления
 public:
-    Shared_Ptr() // Конструктор по умолчанию создаёт shared_ptr, не управляющий никем
+    Shared_Ptr() // Constructs a shared_ptr with no managed object,
     {
         block = nullptr;
         value = nullptr;
     }
-    Shared_Ptr(T data) // Берёт неуправляемый указатель ptr под автоматическое управление
+    Shared_Ptr(T data) // Constructs a shared_ptr with ptr as the pointer to the managed object.
     {
         value = new T(data);
         block = new Block();
         block->increase();
     }
-    Shared_Ptr(const Shared_Ptr<T>& r) //Создает shared_ptr которая разделяет право собственности на объект, управляемый r.
+    Shared_Ptr(const Shared_Ptr<T>& r) // Constructs a shared_ptr which shares ownership of the object managed by r
     {
         value = r.value;
         block = r.block;
         block->increase();
     }
-        Shared_Ptr(Shared_Ptr<T>&& r) //  Move-строит shared_ptr от r.
+    Shared_Ptr(Shared_Ptr<T>&& r) // Move-constructs a shared_ptr from r
     {
         value = r.value;
         block = r.block;
+        *this = r.block;
         r.block = nullptr;
         r.value  = nullptr;
+        return *this;
     }
      ~Shared_Ptr() //деструктор
         {
@@ -69,7 +80,7 @@ public:
             value = nullptr;
             block = nullptr;
         }
-     auto operator = (Shared_Ptr<T>& r) -> Shared_Ptr<T>& //Заменяет управляемый объект объектом управляемым r.
+    auto operator = (Shared_Ptr<T>& r) -> Shared_Ptr<T>& //Replaces the managed object with the one managed by r.
     {
         if (value != nullptr)
         {
@@ -88,31 +99,31 @@ public:
         return *this;
     }
 
-       // проверяет, указывает ли указатель на объект
-       operator bool() const
+
+       operator bool() const // checks if the stored pointer is not null
     {
         if(value!=nullptr)
             return true;
         return false;
     }
-       auto operator*() const -> T& //Разыменовывает указатель на управляемый объект.
+       auto operator*() const -> T& //dereferences the stored pointer
     {
         if (value !=nullptr)
             return *value;
     }
     
-       auto operator->() const -> T* //Разыменовывает указатель на управляемый объект.
+       auto operator->() const -> T* //dereferences the stored pointer
     {
         return value;
     }
        
-       auto get() -> T* //возвращает указатель на управляемый объект
+       auto get() -> T* //returns the stored pointer
     {
         if(value!=nullptr)
             return value;
         return 0;
     }
-         auto reset() -> void //заменяет объект, которым владеет
+         auto reset() -> void //replaces the managed object
          {
              if(block != nullptr)
              {
@@ -141,13 +152,13 @@ public:
            block = new Block();
            block->increase();
        }
-           auto swap(Shared_Ptr& r) -> void //обмен содержимым
+           auto swap(Shared_Ptr& r) -> void //swaps the managed objects
        {
            std::swap(block, r.block);
            std::swap(value, r.value);
        }
 
-       // возвращает количество объектов SharedPtr, которые ссылаются на тот же управляемый объект
+       // returns the number of shared_ptr objects referring to the same managed object
        auto use_count() const -> size_t
        {
            if (block != nullptr)
