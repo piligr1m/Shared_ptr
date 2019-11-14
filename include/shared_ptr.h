@@ -62,10 +62,8 @@ public:
     {
         value = r.value;
         block = r.block;
-        *this = r.block;
         r.block = nullptr;
         r.value  = nullptr;
-        return *this;
     }
      ~Shared_Ptr() //деструктор
         {
