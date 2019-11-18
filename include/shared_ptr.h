@@ -46,9 +46,9 @@ public:
         block = nullptr;
         value = nullptr;
     }
-    Shared_Ptr(T* ptr) // Constructs a shared_ptr with ptr as the pointer to the managed object.
+    Shared_Ptr(T data) // Constructs a shared_ptr with ptr as the pointer to the managed object.
     {
-        value = ptr;
+        value = new T(data);
         block = new Block();
         block->increase();
     }
