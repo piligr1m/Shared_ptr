@@ -95,7 +95,7 @@ public:
     }
          auto reset() -> void //replaces the managed object
          {
-              if(blocke != nullptr)
+              if(block != nullptr)
         {
            block -> decrease();
             if(block -> count == 0)
@@ -112,7 +112,7 @@ public:
         if(block != nullptr)
         {
             block->decrease();
-            if(storage -> count == 0)
+            if(block -> count == 0)
             {
                 delete value;
                 delete block;
