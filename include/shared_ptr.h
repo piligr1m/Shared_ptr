@@ -6,11 +6,11 @@
 //  Copyright © 2019 Stanislav Martynov. All rights reserved.
 //
 
-#ifndef shared_ptr_h
-#define shared_ptr_h
-
+#ifndef Shared_ptr_h
+#define Shared_ptr_h
 #include <atomic>
 #include <iostream>
+
 
 using namespace std;
 
@@ -60,27 +60,15 @@ public:
     }
     Shared_Ptr(Shared_Ptr<T>&& r) // Move-constructs a shared_ptr from r
     {
-        value = r.value;
-        block = r.block;
-        r.block = nullptr;
-        r.value  = nullptr;
+        swap(r);
     }
      ~Shared_Ptr() //деструктор
         {
-            if(block != nullptr)
-            {
-                if(block->count == 0)
-                {
-                    delete value;
-                    delete block;
-                }
-            }
-            value = nullptr;
-            block = nullptr;
+            reset();
         }
     auto operator = (Shared_Ptr<T>& r) -> Shared_Ptr<T>& //Replaces the managed object with the one managed by r.
     {
-  Shared_Ptr(r).swap(*value)
+        Shared_Ptr(r).swap(*value);
       return *value;
     }
 
@@ -93,7 +81,6 @@ public:
     }
        auto operator*() const -> T& //dereferences the stored pointer
     {
-        if (value !=nullptr)
             return *value;
     }
     
@@ -104,20 +91,13 @@ public:
        
        auto get() -> T* //returns the stored pointer
     {
-        if(value!=nullptr)
             return value;
-        return 0;
     }
          auto reset() -> void //replaces the managed object
          {
              if(block != nullptr)
              {
                  block -> decrease();
-                 if(block -> count == 0)
-                 {
-                     delete value;
-                     delete block;
-                 }
                  value = nullptr;
                  block = nullptr;
              }
@@ -127,11 +107,6 @@ public:
            if(block!= nullptr)
            {
                block->decrease();
-               if(block -> count == 0)
-               {
-                   delete value;
-                   delete block;
-               }
            }
            value = ptr;
            block = new Block();
@@ -151,4 +126,4 @@ public:
            else return 0;
        };
 };
-#endif /* shared_ptr_h */
+#endif /* Shared_ptr_h */
