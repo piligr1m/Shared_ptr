@@ -80,21 +80,8 @@ public:
         }
     auto operator = (Shared_Ptr<T>& r) -> Shared_Ptr<T>& //Replaces the managed object with the one managed by r.
     {
-        if (value != nullptr)
-        {
-            block->decrease();
-            if (block != nullptr)
-            {
-                delete value;
-                value = nullptr;
-                delete block;
-                block = nullptr;
-            }
-        }
-        value = r.value;
-        block = &r.block;
-        block->increase();
-        return *this;
+  Shared_Ptr(r).swap(*value)
+      return *value;
     }
 
 
