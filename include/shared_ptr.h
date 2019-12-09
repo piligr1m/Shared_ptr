@@ -95,32 +95,32 @@ public:
     }
          auto reset() -> void //replaces the managed object
          {
-              if(storage != nullptr)
+              if(blocke != nullptr)
         {
-            storage -> decrease();
-            if(storage -> count == 0)
+           block -> decrease();
+            if(block -> count == 0)
             {
                 delete value;
-                delete storage;
+                delete block;
             }
             value = nullptr;
-            storage = nullptr;
+            block = nullptr;
         }
          }
        auto reset(T* ptr) -> void
        {
-        if(storage != nullptr)
+        if(block != nullptr)
         {
-            storage->decrease();
+            block->decrease();
             if(storage -> count == 0)
             {
                 delete value;
-                delete storage;
+                delete block;
             }
         }
         value = ptr;
-        storage = new Storage();
-        storage->increase();
+        block = new Block();
+        block->increase();
        }
            auto swap(Shared_Ptr& r) -> void //swaps the managed objects
        {
